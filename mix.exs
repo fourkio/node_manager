@@ -3,7 +3,7 @@ defmodule NodeManager.Mixfile do
 
   def project do
     [app: :node_manager,
-     version: "0.1.0",
+     version: "0.1.1",
      elixir: "~> 1.4",
      description: "Manage node connections and communications",
      build_embedded: Mix.env == :prod,
