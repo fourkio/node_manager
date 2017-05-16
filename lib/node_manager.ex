@@ -3,10 +3,13 @@ defmodule NodeManager do
   def all_nodes do
     [Node.self | Node.list]
   end
-  def list, do: all_nodes
+  def list, do: all_nodes()
 
   def app_nodes(app_name) do
-    filter_nodes(app_name)
+    case filter_nodes(app_name) do
+      [] -> [Node.self]
+      node_list -> node_list
+    end
   end
 
   def random_app_node(app_name) do
@@ -22,7 +25,7 @@ defmodule NodeManager do
   end
 
   def connect do
-    for tmp <- app_list do
+    for tmp <- app_list() do
       {name, host} = tmp
       Node.connect :"#{name}@#{host}"
     end
@@ -33,7 +36,7 @@ defmodule NodeManager do
   end
 
   defp filter_nodes(app_name) do
-    all_nodes
+    all_nodes()
     |> Enum.filter(fn(x) ->
       node_name = x |> Atom.to_string
       Regex.match?(~r/#{app_name}@/, node_name)
@@ -41,4 +44,3 @@ defmodule NodeManager do
   end
 
 end
-
